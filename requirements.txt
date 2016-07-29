@@ -1,0 +1,2 @@
+pyparsing==2.1.5
+ucsmsdk==0.9.1.1
