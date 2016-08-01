@@ -1,6 +1,6 @@
 #!/usr/bin/env python2.7
 
-# Define and parse command line arguements
+# Define and parse command line arguments
 def parse_args():
     import argparse
     parser = argparse.ArgumentParser()
@@ -111,8 +111,8 @@ if __name__ == '__main__':
     fabric_cfg = load_yaml_file(fabric_config_file)
 
     # Initiators
-    initator_file = args.initiator_json
-    initiators = load_json_file(initator_file)
+    initiator_file = args.initiator_json
+    initiators = load_json_file(initiator_file)
 
     # Create a list of device aliases
     device_aliases = generate_device_alias_list(initiators)

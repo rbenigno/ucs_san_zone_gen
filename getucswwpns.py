@@ -1,6 +1,7 @@
 #!/usr/bin/env python2.7
 
-import os, sys, json, argparse, getpass, re
+import argparse
+from sys import exit
 
 # Import ucsmsdk
 try:
@@ -8,20 +9,21 @@ try:
 except ImportError, e:
     print "Import error: {}".format(str(e))
     print 'https://communities.cisco.com/docs/DOC-64378'
-    sys.exit(1)
+    exit(1)
 
 
 # Define and parse command line arguements
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("ucs_domain", help="UCS Manager Host/IP")
-    parser.add_argument("username", help="UCSM User Account")
+    parser.add_argument("username", help="UCSM User Account (for AD use 'ucs-<DOMAIN>\<USER>')")
     #  parser.add_argument("--password", help="UCSM Password")
     return parser.parse_args()
 
 
 # Get password from environmental variable or prompt for input
 def get_password():
+    import getpass, os
     if os.environ.get('UCSM_PW'):
         return os.environ.get('UCSM_PW')
     else:
@@ -41,6 +43,7 @@ def ucs_logout(handle):
 
 
 def format_as_device_alias_name(dn):
+    import re
     re_pattern = 'ls-((?:\w|-|\s)+)\/fc-(.*)$'
     server = re.search(re_pattern, dn).group(1)
     hba = re.search(re_pattern, dn).group(2)
@@ -91,6 +94,10 @@ def get_sp_wwpn(handle, sp_name, parent_dn="org-root"):
         sp_wwpn(handle, sp_name="sample_sp", parent_dn="org-root/sub-org")
     """
 
+    vHBADict = {}
+    vHBADict['A'] = {}
+    vHBADict['B'] = {}
+
     dn = parent_dn + "/ls-" + sp_name
     mo = handle.query_dn(dn)
     if not mo:
@@ -98,18 +105,8 @@ def get_sp_wwpn(handle, sp_name, parent_dn="org-root"):
 
     query_data = handle.query_children(in_mo=mo, class_id='VnicFc')
 
-    vHBADict = {}
-    FabADict = {}
-    FabBDict = {}
-
     for item in query_data:
-        if item.switch_id == 'A':
-            FabADict[item.name] = item.addr
-        if item.switch_id == 'B':
-            FabBDict[item.name] = item.addr
-
-    vHBADict['A'] = FabADict
-    vHBADict['B'] = FabBDict
+        vHBADict[item.switch_id][item.name] = item.addr
 
     return vHBADict
 
@@ -120,7 +117,8 @@ def get_sp_wwpn(handle, sp_name, parent_dn="org-root"):
 
 # Main function (when running as an executable)
 if __name__ == '__main__':
-    # Retrive the command line arguements
+    import json
+    # Retrive the command line arguments
     args = parse_args()
 
     # Connection Info
