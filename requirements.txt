@@ -1,2 +1,5 @@
+Jinja2==2.8
+MarkupSafe==0.23
 pyparsing==2.1.5
+PyYAML==3.11
 ucsmsdk==0.9.1.1
