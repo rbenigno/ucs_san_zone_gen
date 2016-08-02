@@ -43,15 +43,15 @@ def generate_device_alias_config(aliases):
     j2template = """
 !### FABRIC A
 device-alias database
-{% for name, wwpn in fabric_A.iteritems() %}
-  device-alias name {{name}} pwwn {{wwpn}}
+{% for name, vhba in fabric_A.iteritems() %}
+  device-alias name {{name}} pwwn {{vhba.wwpn}}
 {% endfor %}
 device-alias commit
 
 !### FABRIC B
 device-alias database
-{% for name, wwpn in fabric_B.iteritems() %}
-  device-alias name {{name}} pwwn {{wwpn}}
+{% for name, vhba in fabric_B.iteritems() %}
+  device-alias name {{name}} pwwn {{vhba.wwpn}}
 {% endfor %}
 device-alias commit
     """
@@ -63,11 +63,11 @@ device-alias commit
 # Generate the MDS zone config snippets
 def generate_zone_config(fabric_confg, initiator_aliases):
 
-    vsans = {'A': fabric_cfg['A']['vsan_id'],
-             'B': fabric_cfg['B']['vsan_id']}
+    vsans = {'A': fabric_confg['A']['vsan_id'],
+             'B': fabric_confg['B']['vsan_id']}
 
-    targets = {'A': fabric_cfg['A']['target_aliases'],
-               'B': fabric_cfg['B']['target_aliases']}
+    targets = {'A': fabric_confg['A']['target_aliases'],
+               'B': fabric_confg['B']['target_aliases']}
 
     j2template = """
 {% for fabric, vsan in vsans.iteritems() %}
