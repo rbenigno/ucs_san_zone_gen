@@ -1,0 +1,16 @@
+---
+A:
+  vsan_id: 1001
+  target_aliases:
+    - xio-c1_x1-sc1-fc1
+    - xio-c1_x1-sc2-fc1
+    - xio-c1_x2-sc1-fc1
+    - xio-c1_x2-sc2-fc1
+
+B:
+  vsan_id: 1002
+  target_aliases:
+    - xio-c1_x1-sc1-fc2
+    - xio-c1_x1-sc2-fc2
+    - xio-c1_x2-sc1-fc2
+    - xio-c1_x2-sc2-fc2

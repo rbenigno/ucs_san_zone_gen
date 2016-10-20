@@ -1,5 +1,10 @@
 #!/usr/bin/env python2.7
 
+"""
+Functions to connect to a UCS domain and pull service profile information
+needed for SAN zoning: (server name, vHBA name, WWPN).
+"""
+
 import argparse
 from sys import exit
 

@@ -1,5 +1,10 @@
 #!/usr/bin/env python2.7
 
+"""
+Functions to generate MDS zone templates based on a fixed set of fabric settings
+and initiator parameters (server name, HBA name, WWPN).
+"""
+
 # Define and parse command line arguments
 def parse_args():
     import argparse

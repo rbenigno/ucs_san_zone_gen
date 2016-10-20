@@ -1,7 +1,11 @@
 #!/usr/bin/env python2.7
 
-from zonebuild import *
-from getucswwpns import *
+"""
+Command line script to generate MDS SAN zone snippets based on UCS service profiles.
+"""
+
+from generate_zones import *
+from get_initiators_from_ucs import *
 
 # Define and parse command line arguments
 def parse_args():
