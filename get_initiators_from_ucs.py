@@ -49,7 +49,7 @@ def ucs_logout(handle):
 
 def format_as_device_alias_name(dn):
     import re
-    re_pattern = 'ls-((?:\w|-|\s)+)\/fc-(.*)$'
+    re_pattern = 'ls-((?:\w|-|\s|\.)+)\/fc-(.*)$'
     server = re.search(re_pattern, dn).group(1)
     hba = re.search(re_pattern, dn).group(2)
     device_alias = "{0}_{1}".format(server, hba)
